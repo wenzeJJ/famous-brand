@@ -8,9 +8,21 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="fonts/glyphicons-halflings-regular.svg">
     <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
+<style>
+    tbody tr td:nth-child(5) input{
+       
+       /* display: inline-block; */
+       width: 30px;
+       height: 15px;
+       border: black 1px solid;
+       line-height: 15px;
+       text-align: center;
+    }
 
+</style>
 <body>
     <table class="table">
         <caption>结算</caption>
@@ -30,9 +42,9 @@
                 <td>399</td>
                 <td>好看耐穿</td>
                 <td>1</td>
-                <td>
+                <td class="J">
                     <span>-</span>
-                    <span></span>
+                   <input type="text" value="1">
                     <span>+</span>
                 </td>
                 <td>
@@ -44,9 +56,9 @@
                 <td>299</td>
                 <td>穿上格外的舒服</td>
                 <td>1</td>
-                <td>
+                <td class="W">
                     <span>-</span>
-                    <span></span>
+                    <input type="text" value="1">
                     <span>+</span>
                 </td>
                 <td>
@@ -58,9 +70,9 @@
                 <td>888</td>
                 <td>不仅好看耐穿，穿上还ge外的舒服</td>
                 <td>1</td>
-                <td>
+                <td class="Z">
                     <span>-</span>
-                    <span></span>
+                    <input type="text" value="1">
                     <span>+</span>
                 </td>
                 <td>
@@ -70,6 +82,64 @@
          
         </tbody>
     </table>
+    <script>
+        $(function(){
+           
+          
+
+            /* 删除 */
+           $(".J").find("span:first").click(function(){
+               console.log("ok");
+               axios.delete("http://localhost:3000/JJ",{
+                price:"299",
+                   title:"耐克",
+                   jianjie:"好看耐穿"
+               })
+           })    
+           $(".W").find("span:first").click(function(){
+               console.log("ok");
+               axios.delete("http://localhost:3000/JJ/2",{})
+           })     
+           $(".Z").find("span:first").click(function(){
+               console.log("ok");
+               axios.delete("http://localhost:3000/JJ/3",{})
+           })    
+
+           /* 添加 */
+           $(".J").find("span:last").click(function(){
+               console.log("ok");
+               let sum1= $(".J").find("input").val();
+               console.log(sum1);
+               sum1++;
+               axios.post("http://localhost:3000/JJ",{
+                   price:"299",
+                   title:"耐克",
+                   jianjie:"好看耐穿"
+               })
+           })  
+
+           $(".W").find("span:last").click(function(){
+               console.log("ok");
+               axios.post("http://localhost:3000/JJ",{
+                   price:"299",
+                   title:"李宁",
+                   jianjie:"穿上ge外的舒服"
+               })
+           })  
+        
+           $(".Z").find("span:last").click(function(){
+               console.log("ok");
+               axios.post("http://localhost:3000/JJ",{
+                   price:"888",
+                   title:"阿迪达斯",
+                   jianjie:"不仅好看耐穿，穿上ge外的舒服"
+               })
+           })  
+
+           
+        })
+
+    </script>
 </body>
 
 </html>
