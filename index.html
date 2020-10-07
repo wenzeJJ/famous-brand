@@ -12,17 +12,17 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <style>
-    tbody tr td:nth-child(5) input{
-       
-       /* display: inline-block; */
-       width: 30px;
-       height: 15px;
-       border: black 1px solid;
-       line-height: 15px;
-       text-align: center;
-    }
+    tbody tr td:nth-child(4) input {
 
+        /* display: inline-block; */
+        width: 30px;
+        height: 15px;
+        border: black 1px solid;
+        line-height: 15px;
+        text-align: center;
+    }
 </style>
+
 <body>
     <table class="table">
         <caption>结算</caption>
@@ -32,6 +32,7 @@
                 <th>价钱</th>
                 <th>简介</th>
                 <th>数量</th>
+                <th>单价</th>
                 <th>总价</th>
                 <th>删除</th>
             </tr>
@@ -41,12 +42,14 @@
                 <td>耐克</td>
                 <td>399</td>
                 <td>好看耐穿</td>
-                <td>1</td>
+
                 <td class="J">
                     <span>-</span>
-                   <input type="text" value="1">
+                    <input type="text" value="1">
                     <span>+</span>
                 </td>
+                <td>399</td>
+                <td>399</td>
                 <td>
                     <input type="button" value="删除">
                 </td>
@@ -55,12 +58,14 @@
                 <td>李宁</td>
                 <td>299</td>
                 <td>穿上格外的舒服</td>
-                <td>1</td>
+
                 <td class="W">
                     <span>-</span>
                     <input type="text" value="1">
                     <span>+</span>
                 </td>
+                <td>299</td>
+                <td>299</td>
                 <td>
                     <input type="button" value="删除">
                 </td>
@@ -69,74 +74,111 @@
                 <td>阿迪达斯</td>
                 <td>888</td>
                 <td>不仅好看耐穿，穿上还ge外的舒服</td>
-                <td>1</td>
+
                 <td class="Z">
                     <span>-</span>
                     <input type="text" value="1">
                     <span>+</span>
                 </td>
+                <td>888</td>
+                <td>888</td>
                 <td>
                     <input type="button" value="删除">
                 </td>
             </tr>
-         
+
         </tbody>
     </table>
     <script>
-        $(function(){
-           
-          
+        $(function () {
+            // 获取input值
+            let sum1 = $(".J").find("input").val();
+            let sum2 = $(".W").find("input").val();
+            let sum3 = $(".Z").find("input").val();
+            //获取单价
+            let Dan1 = $(".active").find("td").eq(4).text();
+            // console.log(Dan1);
+            let Dan2 = $(".success").find("td").eq(4).text();
+            let Dan3 = $(".warning").find("td").eq(4).text();
+
+            //获取总价
+            // let Zong1 = $(".active").find("td").eq(5).text();
+            // console.log(Dan1);
+            // let Zong2 = $(".success").find("td").eq(5).text();
+            // let Zong3 = $(".warning").find("td").eq(5).text();
 
             /* 删除 */
-           $(".J").find("span:first").click(function(){
-               console.log("ok");
-               axios.delete("http://localhost:3000/JJ",{
-                price:"299",
-                   title:"耐克",
-                   jianjie:"好看耐穿"
-               })
-           })    
-           $(".W").find("span:first").click(function(){
-               console.log("ok");
-               axios.delete("http://localhost:3000/JJ/2",{})
-           })     
-           $(".Z").find("span:first").click(function(){
-               console.log("ok");
-               axios.delete("http://localhost:3000/JJ/3",{})
-           })    
+            $(".J").find("span:first").click(function () {
+                console.log("ok");
 
-           /* 添加 */
-           $(".J").find("span:last").click(function(){
-               console.log("ok");
-               let sum1= $(".J").find("input").val();
-               console.log(sum1);
-               sum1++;
-               axios.post("http://localhost:3000/JJ",{
-                   price:"299",
-                   title:"耐克",
-                   jianjie:"好看耐穿"
-               })
-           })  
+                $(".J").find("input").val(--sum1);
+                $(".active").find("td").eq(5).text(sum1 * Number(Dan1));
+                axios.delete("http://localhost:3000/JJ/65", {
+                    price: "299",
+                    title: "耐克",
+                    jianjie: "好看耐穿"
+                })
+            })
+            $(".W").find("span:first").click(function () {
+                console.log("ok");
 
-           $(".W").find("span:last").click(function(){
-               console.log("ok");
-               axios.post("http://localhost:3000/JJ",{
-                   price:"299",
-                   title:"李宁",
-                   jianjie:"穿上ge外的舒服"
-               })
-           })  
-        
-           $(".Z").find("span:last").click(function(){
-               console.log("ok");
-               axios.post("http://localhost:3000/JJ",{
-                   price:"888",
-                   title:"阿迪达斯",
-                   jianjie:"不仅好看耐穿，穿上ge外的舒服"
-               })
-           })  
+                $(".W").find("input").val(--sum2);
+                $(".success").find("td").eq(5).text(sum2 * Number(Dan2))
+                axios.delete("http://localhost:3000/JJ/2", {})
+            })
+            $(".Z").find("span:first").click(function () {
 
-           
+                $(".Z").find("input").val(--sum3);
+                $(".warning").find("td").eq(5).text(sum3 * Number(Dan3));
+                axios.delete("http://localhost:3000/JJ/3", {})
+            })
+
+
+            /* 添加 */
+
+            $(".J").find("span:last").click(function () {
+                console.log("ok");
+                //获取input 值
+                $(".J").find("input").val(++sum1);
+                console.log(sum1);
+                // console.log( $(".J").find("input").val(++sum1));
+                //获取总价
+                $(".active").find("td").eq(5).text(sum1 * Number(Dan1));
+                console.log(Number(Dan1));
+                axios.post("http://localhost:3000/JJ", {
+                    price: "299",
+                    title: "耐克",
+                    jianjie: "好看耐穿"
+                })
+            })
+
+            $(".W").find("span:last").click(function () {
+                console.log("ok");
+                //获取input 值
+                $(".W").find("input").val(++sum2);
+                //获取总价
+                $(".success").find("td").eq(5).text(sum2 * Number(Dan2));
+                axios.post("http://localhost:3000/JJ", {
+                    price: "299",
+                    title: "李宁",
+                    jianjie: "穿上ge外的舒服"
+                })
+            })
+
+            $(".Z").find("span:last").click(function () {
+                console.log("ok");
+                //获取input 值
+                $(".Z").find("input").val(++sum3);
+                //获取总价
+                $(".warning").find("td").eq(5).text(sum3 * Number(Dan3));
+                axios.post("http://localhost:3000/JJ", {
+                    price: "888",
+                    title: "阿迪达斯",
+                    jianjie: "不仅好看耐穿，穿上ge外的舒服"
+                })
+            })
+
+
         })
 
     </script>
